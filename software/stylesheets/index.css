@@ -60,6 +60,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0084', end
   font-weight: 900;
 }
 
+#reserve-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #customerName-input {
   background-color: #fcfeff;
 }
