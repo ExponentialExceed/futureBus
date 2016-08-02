@@ -33,16 +33,16 @@ setInterval(function() {
         // TODO: add information to web
         obj = JSON.parse(data);
         seatLeft = (allSeat - ((obj.enter + reservePerson) - obj.leave));
-        temperatureLabel.text(obj.temp);
-        enterLabel.text(obj.enter);
-        leaveLabel.text(obj.leave);
-        totalLabel.text(seatLeft);
+        temperatureLabel.text(obj.temp + "°C");
+        enterLabel.text("Enter: " + obj.enter);
+        leaveLabel.text("Leave: " + obj.leave);
+        totalLabel.text("Seat: " + seatLeft);
     });
 
     // time
     var date = new Date();
-    timeLabel.text(date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
-    dateLabel.text((date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear());
+    timeLabel.text("Time" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
+    dateLabel.text("Date" + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear());
 }, 1000);
 
 customerNameInput.keyup(function(e) {
@@ -92,8 +92,8 @@ var reserveF = function(name) {
     names[reservePerson++] = name;
     seatLeft -= 1;
     // update ui
-    reserveLabel.html(reservePerson);
-    totalLabel.html(seatLeft);
+    reserveLabel.text("Reserve: " + reservePerson);
+    totalLabel.text("Seat: " + seatLeft);
 }
 
 var cancelF = function(name) {
@@ -103,8 +103,8 @@ var cancelF = function(name) {
             reservePerson -= 1;
             seatLeft += 1;
             // update ui
-            reserveLabel.html(reservePerson);
-            totalLabel.html(seatLeft);
+            reserveLabel.html("Reserve: " + reservePerson);
+            totalLabel.html("Seat: " + seatLeft);
         }
     }
 }
