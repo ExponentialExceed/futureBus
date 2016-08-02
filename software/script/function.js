@@ -41,8 +41,8 @@ setInterval(function() {
 
     // time
     var date = new Date();
-    timeLabel.text("Time" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
-    dateLabel.text("Date" + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear());
+    timeLabel.text("Time: " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
+    dateLabel.text("Date: " + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear());
 }, 1000);
 
 customerNameInput.keyup(function(e) {
