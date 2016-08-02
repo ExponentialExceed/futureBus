@@ -1,0 +1,23 @@
+html {
+background-color: #ECF0F1;
+}
+
+#container {
+  background-color: #ECF0F1;
+}
+
+.panel-body {
+  -webkit-transition-duration: 1s;
+  -o-transition-duration: 1s;
+  -moz-transition-duration: 1s;
+  background-color: #ECF0F1;
+}
+.panel-primary>.panel-heading {
+  background-color: #b76e79 !important;
+}
+.well:hover{
+  -webkit-transition-duration: 1s;
+  -o-transition-duration: 1s;
+  -moz-transition-duration: 1s;
+  color: #95A5A6;
+}
