@@ -60,7 +60,7 @@
                             </div>
                         </div>
                         <div class="col-xs-2 col-md-2 col-lg-2">
-                            <div id="enter-div" class="well well-lg">
+                            <div id="reserve-div" class="well well-lg">
                                 <center>RESERVE</center>
                             </div>
                         </div>
@@ -74,9 +74,9 @@
                     <div class="row">
                         <div class="col-xs-12 col-md-12 col-lg-12">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Enter your name...">
+                                <input type="text" class="form-control" placeholder="Enter your name..." id="inputName">
                                 <span class="input-group-btn">
-                                      <button class="btn btn-default" type="button">RESERVE!</button>
+                                      <button class="btn btn-default" type="button" id="reserveBtn">RESERVE!</button>
                                 </span>
                             </div>
                         </div>
@@ -88,6 +88,71 @@
     </div>
 
     <script type="text/javascript">
+    var time = $('#time-div');
+    var datetxt = $('#date-div')
+    var numEnter = 0;
+    var numLeave = 0;
+    var numSeat = 20;
+    var numTemperature = 25;
+    var temperature = $('#temp-div');
+    var enter = $('#enter-div');
+    var leave = $('#leave-div');
+    var numReserve = 0;
+    var reserveList = [1];
+    var reserveBtn = $('#reserveBtn');
+    var inputName = $('#inputName');
+
+    setInterval(function () {
+      var date = new Date();
+      time.html(date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
+      datetxt.html((date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear());
+    }, 1000);
+
+    setInterval(function () {
+      $.ajax( {
+        url: 'http://10.32.176.4/Exponential'
+      })
+      .done(function(data) {
+        temperature.html();
+      });
+    },10000);
+
+    var enterF = function() {
+      numEnter += 1;
+      numSeat = 20 - numEnter + numLeave;
+      enter.html(numEnter);
+      seat.html(numSeat);
+    }
+
+    var leaveF = function() {
+      numLeaave += 1;
+      numSeat = 20 - numEnter + numLeave;
+      leave.html(numLeaave);
+      seat.html(numSeat);
+    }
+
+    var reserveF = function(name) {
+      reserveList[numReserve] = name;
+      numReserve += 1;
+      numSeat -= 1;
+    }
+
+    var cancelF = function(index) {
+      reserveList[index] = "";
+      numReserve -= 1;
+      numSeat += 1;
+    }
+
+    reserveBtn.click(function() {
+      if (numSeat !== 0) {
+          var name = inputName.val();
+          reserveF(name);
+      } else {
+          alert("no seat left");
+      }
+    });
+
+
     </script>
 </body>
 
