@@ -32,7 +32,7 @@ setInterval(function() {
     }).done(function(data) {
         // TODO: add information to web
         obj = JSON.parse(data);
-        seatLeft = (allSeat - ((obj.enter + reservePerson) - obj.leave));
+        updateSeat();
         temperatureLabel.text(obj.temp + "°C");
         enterLabel.text("Enter: " + obj.enter);
         leaveLabel.text("Leave: " + obj.leave);
@@ -69,8 +69,10 @@ customerNameInput.keyup(function(e) {
 reserveBtn.click(function() {
     if (seatLeft != 0) {
         var name = customerNameInput.val();
-        reserveF(name);
-        disabledButton(cancelBtn, false);
+        if (name != "") {
+          reserveF(name);
+          disabledButton(cancelBtn, false);
+        }
     } else {
         disabledButton(reserveBtn, true);
     }
@@ -92,7 +94,7 @@ var reserveF = function(name) {
     names[reservePerson++] = name;
     seatLeft -= 1;
     // update ui
-    reserveLabel.text("Reserve: " + reservePerson);
+    reserveLabel.html("Reserve: <br>" + reservePerson);
     totalLabel.text("Seat: " + seatLeft);
 }
 
@@ -103,8 +105,9 @@ var cancelF = function(name) {
             reservePerson -= 1;
             seatLeft += 1;
             // update ui
-            reserveLabel.html("Reserve: " + reservePerson);
-            totalLabel.html("Seat: " + seatLeft);
+            reserveLabel.html("Reserve: <br>" + reservePerson);
+            totalLabel.tet
+            ("Seat: " + seatLeft);
         }
     }
 }
@@ -123,4 +126,11 @@ var disabledButton = function(button, disabled) {
     } else {
         button.removeAttr("disabled");
     }
+}
+
+var updateSeat = function() {
+  seatLeft = (allSeat - ((obj.enter + reservePerson) - obj.leave));
+  if (seatLeft < 0) {
+    seatLeft = 0;
+  }
 }

@@ -23,6 +23,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0084', end
 #total-div,#reserve-div{
   height: 180px;
 }
+#reserve-div {
+  text-align: center;
+}
+
 .panel-body {
   -webkit-transition-duration: 1s;
   -o-transition-duration: 1s;
@@ -47,18 +51,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0084', end
   color: #95A5A6;
 }
 
-.input-group-btn>.btn:hover {
+.input-group-btn .btn:hover {
   background-color: #CF000F;
 }
 #cancel-btn {
   background-color: #663399;
   border-radius: 8px;
+  margin-right: 25px
 
 }
 #reserve-btn{
   background-color: #DB0A5B;
   border-radius: 8px;
-  margin-right: 100px;
+  margin-right: 25px;
 }
 #reserve-btn:hover{
   background-color: #9A12B3;
@@ -70,7 +75,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0084', end
 
 #customerName-input {
   background-color: #fcfeff;
-  width: 600px;
+  width: 850px;
 }
 .well{
   font-size: 1.5em;
