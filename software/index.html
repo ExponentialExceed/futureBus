@@ -76,8 +76,8 @@
                             <div class="input-group">
                                 <input id="customerName-input" type="text" class="form-control" aria-label="...">
                                 <div class="input-group-btn ">
-                                    <button disabled id="reserve-btn" class="btn btn-info" type="button ">RESERVE!</button>
-                                    <button disabled id="cancel-btn" class="btn btn-warning" type="button ">CANCEL!</button>
+                                    <button disabled id="reserve-btn" class="btn btn-info " type="button ">RESERVE!</button>
+                                    <button disabled id="cancel-btn" class="btn btn-warning " type="button ">CANCEL!</button>
                                 </div>
                             </div>
                         </div>
@@ -88,69 +88,136 @@
     </div>
     </div>
     <script type="text/javascript">
-    var time = $('#time-div');
-    var datetxt = $('#date-div')
-    var numEnter = 0;
-    var numLeave = 0;
-    var numSeat = 20;
-    var numTemperature = 25;
-    var temperature = $('#temp-div');
-    var enter = $('#enter-div');
-    var leave = $('#leave-div');
-    var numReserve = 0;
-    var reserveList = [1];
-    var reserveBtn = $('#reserveBtn');
-    var inputName = $('#inputName');
+    var names = [];
 
-    setInterval(function () {
-      var date = new Date();
-      time.html(date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
-      datetxt.html((date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear());
+    var allSeat = 20;
+
+    var timeLabel = $('#time-div');
+    var dateLabel = $('#date-div')
+    var temperatureLabel = $('#temp-div');
+
+    var totalLabel = $('#total-div');
+
+    var enterLabel = $('#enter-div');
+    var reserveLabel = $('#reserve-div');
+    var leaveLabel = $('#leave-div');
+
+    var customerNameInput = ($('#customerName-input'));
+
+    var reserveBtn = $('#reserve-btn');
+    var cancelBtn = $('#cancel-btn');
+
+    var enterPerson = 0;
+    var reservePerson = 0;
+    var leavePerson = 0;
+
+    var seatLeft = 20;
+
+    setInterval(function() {
+        var date = new Date();
+        timeLabel.html("<center>" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "</center>");
+        dateLabel.html("<center>" + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "</center>");
     }, 1000);
 
-    setInterval(function () {
-      $.ajax( {
-        url: 'http://10.32.176.4/Exponential'
-      })
-      .done(function(data) {
-        temperature.html();
-      });
-    },10000);
+    setInterval(function() {
+        $.ajax({
+            url: 'http://10.32.176.4/Exponential'
+        }).done(function(data) {
+            // TODO: add temperature to here
+            temperatureLabel.html();
+        });
+    }, 10000);
 
-    var enterF = function() {
-      numEnter += 1;
-      numSeat = 20 - numEnter + numLeave;
-      enter.html(numEnter);
-      seat.html(numSeat);
+    customerNameInput.keyup(function(e) {
+        e.preventDefault();
+        if (e.which == 8) {
+            if (customerNameInput.val() === "") {
+                disabledButton(reserveBtn, true);
+                disabledButton(cancelBtn, true);
+            } else {
+                disabledButton(reserveBtn, false);
+                disabledButton(cancelBtn, false);
+            }
+        } else {
+            if (customerNameInput.val() === "") {
+                disabledButton(reserveBtn, true);
+                disabledButton(cancelBtn, true);
+            } else {
+                disabledButton(reserveBtn, false);
+                disabledButton(cancelBtn, false);
+            }
+        }
+    });
+
+    var goIn = function() {
+        enterPerson += 1;
+        seatLeft = allSeat - ((enterPerson + reservePerson) - leavePerson);
+        enterLabel.html(enterPerson);
+        totalLabel.html(seatLeft);
     }
 
-    var leaveF = function() {
-      numLeaave += 1;
-      numSeat = 20 - numEnter + numLeave;
-      leave.html(numLeaave);
-      seat.html(numSeat);
+    var goOut = function() {
+        numLeaave += 1;
+        seatLeft = allSeat - ((enterPerson + reservePerson) - leavePerson);
+        leaveLabel.html(leavePerson);
+        totalLabel.html(seatLeft);
     }
 
     var reserveF = function(name) {
-      reserveList[numReserve] = name;
-      numReserve += 1;
-      numSeat -= 1;
+        names[reservePerson] = name;
+        reservePerson += 1;
+        seatLeft -= 1;
+        reserveLabel.html(reservePerson);
+        totalLabel.html(seatLeft);
     }
 
-    var cancelF = function(index) {
-      reserveList[index] = "";
-      numReserve -= 1;
-      numSeat += 1;
+    var cancelF = function(name) {
+      var found = false;
+      for (var i = 0;i < reservePerson;i++) {
+        if (found === true) {
+          names[i] = names[i-1];
+        }
+        if (names[i] === name) {
+          found = true;
+        }
+      }
+      if (found) {
+        reservePerson -= 1;
+        seatLeft += 1;
+        reserveLabel.html(reservePerson);
+        totalLabel.html(seatLeft);
+      }
+    }
+
+    var disabledButton = function(button, disabled) {
+        if (disabled) {
+            button.attr("disabled", true);
+        } else {
+            button.removeAttr("disabled");
+        }
     }
 
     reserveBtn.click(function() {
-      if (numSeat !== 0) {
-          var name = inputName.val();
-          reserveF(name);
+
+        if (seatLeft != 0) {
+            var name = customerNameInput.val();
+            reserveF(name);
+            disabledButton(cancelBtn,false);
+        } else {
+            disabledButton(reserveBtn,true);
+        }
+    });
+
+    cancelBtn.click(function() {
+      if (reservePerson != 0) {
+          var name = customerNameInput.val();
+          cancelF(name);
+          disabledButton(reserveBtn,false);
       } else {
-          alert("no seat left");
+          disabledButton(cancelBtn,true);
       }
     });
+
     </script>
 </body>
 

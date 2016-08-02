@@ -77,12 +77,24 @@ var reserveF = function(name) {
     reserveList[reservePerson] = name;
     reservePerson += 1;
     seatLeft -= 1;
+    reserveLabel.html(reservePerson);
+    totalLabel.html(seatLeft);
 }
 
-var cancelF = function(index) {
-    reserveList[index] = "";
-    reservePerson -= 1;
-    seatLeft += 1;
+var cancelF = function(name) {
+  var found = false;
+  for (var i = 0;i < reservePerson;i++) {
+    if (found === true) {
+      names[i] = names[i-1];
+    }
+    if (names[i] === name) {
+      found = true;
+    }
+  }
+  reservePerson -= 1;
+  seatLeft += 1;
+  reserveLabel.html(reservePerson);
+  totalLabel.html(seatLeft);
 }
 
 var disabledButton = function(button, disabled) {
@@ -97,7 +109,19 @@ reserveBtn.click(function() {
     if (seatLeft != 0) {
         var name = customerNameInput.val();
         reserveF(name);
+        disabledButton(cancelBtn,false);
     } else {
-        alert("no seat left");
+        disabledButton(reserveBtn,true);
     }
 });
+
+cancelBtn.click(function() {
+  if (reservePerson != 0) {
+      var name = customerNameInput.val();
+      cancelF(name);
+      disabledButton(reserveBtn,false);
+  } else {
+      disabledButton(cancelBtn,true);
+  }
+});
+}
