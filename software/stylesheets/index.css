@@ -54,20 +54,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0084', end
 .input-group-btn .btn:hover {
   background-color: #CF000F;
 }
-#cancel-btn {
-  background-color: #663399;
-  border-radius: 8px;
-  margin-right: 25px
 
-}
-#reserve-btn{
-  background-color: #DB0A5B;
-  border-radius: 8px;
-  margin-right: 25px;
-}
-#reserve-btn:hover{
-  background-color: #9A12B3;
-}
 .panel-heading{
   font-size: 2em;
   font-weight: 900;
@@ -75,7 +62,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0084', end
 
 #customerName-input {
   background-color: #fcfeff;
-  width: 850px;
 }
 .well{
   font-size: 1.5em;
