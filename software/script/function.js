@@ -109,6 +109,14 @@ var cancelF = function(name) {
     }
 }
 
+var sentDataToServer = function(information) {
+    $.ajax({
+        url: 'http://10.32.176.4/Exponential/' + information
+    }).done(function(data) {
+        alert(data);
+    });
+}
+
 var disabledButton = function(button, disabled) {
     if (disabled) {
         button.attr("disabled", true);
