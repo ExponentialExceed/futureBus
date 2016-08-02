@@ -17,11 +17,11 @@ var customerNameInput = ($('#customerName-input'));
 var reserveBtn = $('#reserve-btn');
 var cancelBtn = $('#cancel-btn');
 
-var enterPerson = 0;
 var reservePerson = 0;
-var leavePerson = 0;
 
 var seatLeft = 0;
+
+var obj = null;
 
 setInterval(function() {
     // senter form {"temp":(), "enter":(),"leave":()}
@@ -31,11 +31,18 @@ setInterval(function() {
         url: 'http://10.32.176.4/Exponential'
     }).done(function(data) {
         // TODO: add information to web
+        obj = JSON.parse(data);
+        seatLeft = (allSeat - ((obj.enter + reservePerson) - obj.leave));
+        temperatureLabel.text(obj.temp);
+        enterLabel.text(obj.enter);
+        leaveLabel.text(obj.leave);
+        totalLabel.text(seatLeft);
     });
+
     // time
     var date = new Date();
-    timeLabel.html("<center>" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "</center>");
-    dateLabel.html("<center>" + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "</center>");
+    timeLabel.text(date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
+    dateLabel.text((date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear());
 }, 1000);
 
 customerNameInput.keyup(function(e) {
@@ -59,30 +66,47 @@ customerNameInput.keyup(function(e) {
     }
 });
 
-var goIn = function() {
-    enterPerson += 1;
-    seatLeft = allSeat - ((enterPerson + reservePerson) - leavePerson);
-    enterLabel.html(enterPerson);
-    totalLabel.html(seatLeft);
-}
+reserveBtn.click(function() {
+    if (seatLeft != 0) {
+        var name = customerNameInput.val();
+        reserveF(name);
+        disabledButton(cancelBtn, false);
+    } else {
+        disabledButton(reserveBtn, true);
+    }
+    customerNameInput.val("");
+});
 
-var goOut = function() {
-    numLeaave += 1;
-    seatLeft = allSeat - ((enterPerson + reservePerson) - leavePerson);
-    leaveLabel.html(leavePerson);
-    totalLabel.html(seatLeft);
-}
+cancelBtn.click(function() {
+    if (reservePerson != 0) {
+        var name = customerNameInput.val();
+        cancelF(name);
+        disabledButton(reserveBtn, false);
+    } else {
+        disabledButton(cancelBtn, true);
+    }
+    customerNameInput.val("");
+});
 
 var reserveF = function(name) {
-    reserveList[reservePerson] = name;
-    reservePerson += 1;
+    names[reservePerson++] = name;
     seatLeft -= 1;
+    // update ui
+    reserveLabel.html(reservePerson);
+    totalLabel.html(seatLeft);
 }
 
-var cancelF = function(index) {
-    reserveList[index] = "";
-    reservePerson -= 1;
-    seatLeft += 1;
+var cancelF = function(name) {
+    for (var i = 0; i < names.length; i++) {
+        if (names[i] == name) {
+            names.splice(i, 1);
+            reservePerson -= 1;
+            seatLeft += 1;
+            // update ui
+            reserveLabel.html(reservePerson);
+            totalLabel.html(seatLeft);
+        }
+    }
 }
 
 var disabledButton = function(button, disabled) {
@@ -92,12 +116,3 @@ var disabledButton = function(button, disabled) {
         button.removeAttr("disabled");
     }
 }
-
-reserveBtn.click(function() {
-    if (seatLeft != 0) {
-        var name = customerNameInput.val();
-        reserveF(name);
-    } else {
-        alert("no seat left");
-    }
-});
