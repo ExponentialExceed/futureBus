@@ -30,12 +30,12 @@
                     <div class="row">
                         <div class="col-xs-6 col-md-6 col-lg-6">
                             <div id="date-div" class="well well-sm">
-                                <center>DATE</center>
+                                <center></center>
                             </div>
                         </div>
                         <div class="col-xs-4 col-md-4 col-lg-4">
                             <div id="time-div" class="well well-sm">
-                                <center>TIME</center>
+                                <center></center>
                             </div>
                         </div>
                         <div class="col-xs-2 col-md-2 col-lg-2">
@@ -74,10 +74,11 @@
                     <div class="row">
                         <div class="col-xs-12 col-md-12 col-lg-12">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Enter your name...">
-                                <span class="input-group-btn">
-                                      <button class="btn btn-default" type="button">RESERVE!</button>
-                                </span>
+                                <input id="customerName-input" type="text" class="form-control" aria-label="...">
+                                <div class="input-group-btn ">
+                                    <button id="reserve-btn" class="btn btn-info " type="button ">RESERVE!</button>
+                                    <button id="cancel-btn" class="btn btn-warning " type="button ">CANCEL!</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -87,7 +88,7 @@
     </div>
     </div>
 
-    <script type="text/javascript">
+    <script type="text/javascript" src="script/function.js">
     </script>
 </body>
 
