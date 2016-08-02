@@ -38,15 +38,24 @@ setInterval(function() {
     });
 }, 10000);
 
-customerNameInput.keypress(function(e) {
-    e.preventDefault()
-    alert(e.keyCode == 8);
-    if (customerNameInput.val() === "") {
-        disabledButton(reserveBtn, true);
-        disabledButton(cancelBtn, true);
+customerNameInput.keyup(function(e) {
+    e.preventDefault();
+    if (e.which == 8) {
+        if (customerNameInput.val() === "") {
+            disabledButton(reserveBtn, true);
+            disabledButton(cancelBtn, true);
+        } else {
+            disabledButton(reserveBtn, false);
+            disabledButton(cancelBtn, false);
+        }
     } else {
-        disabledButton(reserveBtn, false);
-        disabledButton(cancelBtn, false);
+        if (customerNameInput.val() === "") {
+            disabledButton(reserveBtn, true);
+            disabledButton(cancelBtn, true);
+        } else {
+            disabledButton(reserveBtn, false);
+            disabledButton(cancelBtn, false);
+        }
     }
 });
 
