@@ -1,5 +1,7 @@
 var names = [];
 
+var allSeat = 20;
+
 var timeLabel = $('#time-div');
 var dateLabel = $('#date-div')
 var temperatureLabel = $('#temp-div');
@@ -10,17 +12,22 @@ var enterLabel = $('#enter-div');
 var reserveLabel = $('#reserve-div');
 var leaveLabel = $('#leave-div');
 
-var customerText = ($('#customerName-input')).val();
+var customerNameInput = ($('#customerName-input'));
 
 var reserveBtn = $('#reserve-btn');
 var cancelBtn = $('#cancel-btn');
+
+var enterPerson = 0;
+var reservePerson = 0;
+var leavePerson = 0;
+
+var seatLeft = 0;
 
 setInterval(function() {
     var date = new Date();
     timeLabel.html("<center>" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "</center>");
     dateLabel.html("<center>" + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "</center>");
 }, 1000);
-
 
 setInterval(function() {
     $.ajax({
@@ -31,35 +38,55 @@ setInterval(function() {
     });
 }, 10000);
 
-var enterF = function() {
-    numEnter += 1;
-    numSeat = 20 - numEnter + numLeave;
-    enter.html(numEnter);
-    seat.html(numSeat);
+customerNameInput.keypress(function(e) {
+    e.preventDefault()
+    alert(e.keyCode == 8);
+    if (customerNameInput.val() === "") {
+        disabledButton(reserveBtn, true);
+        disabledButton(cancelBtn, true);
+    } else {
+        disabledButton(reserveBtn, false);
+        disabledButton(cancelBtn, false);
+    }
+});
+
+var goIn = function() {
+    enterPerson += 1;
+    seatLeft = allSeat - ((enterPerson + reservePerson) - leavePerson);
+    enterLabel.html(enterPerson);
+    totalLabel.html(seatLeft);
 }
 
-var leaveF = function() {
+var goOut = function() {
     numLeaave += 1;
-    numSeat = 20 - numEnter + numLeave;
-    leave.html(numLeaave);
-    seat.html(numSeat);
+    seatLeft = allSeat - ((enterPerson + reservePerson) - leavePerson);
+    leaveLabel.html(leavePerson);
+    totalLabel.html(seatLeft);
 }
 
 var reserveF = function(name) {
-    reserveList[numReserve] = name;
-    numReserve += 1;
-    numSeat -= 1;
+    reserveList[reservePerson] = name;
+    reservePerson += 1;
+    seatLeft -= 1;
 }
 
 var cancelF = function(index) {
     reserveList[index] = "";
-    numReserve -= 1;
-    numSeat += 1;
+    reservePerson -= 1;
+    seatLeft += 1;
+}
+
+var disabledButton = function(button, disabled) {
+    if (disabled) {
+        button.attr("disabled", true);
+    } else {
+        button.removeAttr("disabled");
+    }
 }
 
 reserveBtn.click(function() {
-    if (numSeat !== 0) {
-        var name = inputName.val();
+    if (seatLeft != 0) {
+        var name = customerNameInput.val();
         reserveF(name);
     } else {
         alert("no seat left");
