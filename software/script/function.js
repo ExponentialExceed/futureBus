@@ -24,19 +24,19 @@ var leavePerson = 0;
 var seatLeft = 0;
 
 setInterval(function() {
+    // senter form {"temp":(), "enter":(),"leave":()}
+
+    // server
+    $.ajax({
+        url: 'http://10.32.176.4/Exponential'
+    }).done(function(data) {
+        // TODO: add information to web
+    });
+    // time
     var date = new Date();
     timeLabel.html("<center>" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "</center>");
     dateLabel.html("<center>" + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "</center>");
 }, 1000);
-
-setInterval(function() {
-    $.ajax({
-        url: 'http://10.32.176.4/Exponential'
-    }).done(function(data) {
-        // TODO: add temperature to here
-        temperatureLabel.html();
-    });
-}, 10000);
 
 customerNameInput.keyup(function(e) {
     e.preventDefault();
