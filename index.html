@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap-theme.min.css">
+    <!--custom.css-->
+    <link rel="stylesheet" href="/index.css">
+    <!--index.css-->
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3" id="container">
+            <div class="panel panel-primary">
+                <!-- heading -->
+                <div id="chatroomName" class="panel-heading">Exceed software chatroom</div>
+                <div class="panel-body">
+                    <!-- group option -->
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12 col-lg-12">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                  <button id="btn-toGroup" class="btn btn-info" type="button">To Group</button>
+                                </span>
+                                <input id="groupName" autocomplete="off" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <!-- text area -->
+                        <textarea disabled rows="15" style="resize:none" class="form-control" id="chat-list"></textarea>
+                        <br>
+                        <div class="col-xs-12 col-md-12 col-lg-12">
+                            <!--status message-->
+                            <span id="status" class="label label-default">Status</span>
+                            <div class="input-group">
+                                <!-- input message -->
+                                <input id="message" type="text" class="form-control" placeholder="texting message...">
+                                <!-- sent button -->
+                                <span class="input-group-btn">
+                                <button id="btn-sent" class="btn btn-success" type="button">SEND!</button>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            // naming
+            var currentName = prompt("please, Enter your name?");
+
+            var field = $("#chat-list");
+
+            var sentBtn = $("#btn-sent");
+            var createGroupBtn = $("#btn-createGroup");
+            var toGroupBtn = $("#btn-toGroup");
+
+            var input = $("#message");
+
+            var groupNameHTML = $("#chatroomName");
+
+            var statusMessage = $('#status');
+
+            var currentMessage = "";
+            var defaultURL = "http://10.32.176.4/";
+            var currentGroup = "workshop/";
+
+            input.attr("placeholder", "texting.. To group (" + currentGroup.substr(0, currentGroup.length - 1) + ")");
+
+            setInterval(function() {
+                // current time
+                var now = (new Date()).toUTCString();
+
+                // do something to the server
+                $.ajax({
+                    url: defaultURL + currentGroup
+                        // run this, only if download from server is success
+                }).done(function(data) {
+                    if (data != currentMessage) {
+                        var oldChat = field.val() + "\n";
+                        field.html(oldChat + data);
+                        currentMessage = data;
+
+                        // always scroll the the bottom
+                        field.scrollTop(field[0].scrollHeight);
+                    }
+                });
+            }, 1000);
+
+            sentBtn.click(function() {
+                var message = input.val();
+                $.ajax({
+                    url: defaultURL + currentGroup + currentName + ": " + message + "/set/"
+                }).done(function(data) {
+                    if (data != "Success")
+                        changeStatus(statusMessage, "label label-default", "label label-danger", data);
+                    else
+                        changeStatus(statusMessage, "label label-default", "label label-success", data);
+                });
+                input.val("");
+            });
+
+            toGroupBtn.click(function() {
+                toGroup(($('#groupName')).val());
+                ($('#groupName')).val("");
+            });
+
+            input.keypress(function(e) {
+                changeStatus(statusMessage, "label label-success", "label label-default", "Status");
+                changeStatus(statusMessage, "label label-danger", "label label-default", "Status");
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    sentBtn.click();
+                }
+            });
+
+            // function
+            var createGroup = function(name) {
+                $.ajax({
+                    url: defaultURL + "group/" + name
+                }).done(function(data) {
+                    alert(data);
+                });
+            }
+
+            var toGroup = function(name) {
+                if (name == "" || name == null) {
+                    changeStatus(statusMessage, "label label-default", "label label-danger", "Enter Group Name");
+                    return;
+                }
+                $.ajax({
+                    url: defaultURL + name
+                }).done(function(data) {
+                    if (data.indexOf("is not exist") != -1) {
+                        createGroup(name);
+                    }
+                    currentGroup = name + "/";
+                    groupNameHTML.text("Exceed software chatroom");
+                    input.attr("placeholder", "texting.. To group (" + name + ")");
+                });
+            }
+
+            var changeStatus = function(element, oldClass, newClass, status) {
+                if (element.hasClass(oldClass)) {
+                    element.removeClass(oldClass);
+                    element.addClass(newClass);
+                }
+                element.text(status);
+            }
+        </script>
+</body>
+
+</html>
