@@ -27,9 +27,7 @@ setInterval(function() {
     // senter form {"temp":(), "enter":(),"leave":()}
 
     // server
-    $.ajax({
-        url: 'http://10.32.176.4/Exponential'
-    }).done(function(data) {
+    $.ajax({url: 'http://10.32.176.4/Exponential'}).done(function(data) {
         // TODO: add information to web
         obj = JSON.parse(data);
         updateSeat();
@@ -70,8 +68,8 @@ reserveBtn.click(function() {
     if (seatLeft != 0) {
         var name = customerNameInput.val();
         if (name != "") {
-          reserveF(name);
-          disabledButton(cancelBtn, false);
+            reserveF(name);
+            disabledButton(cancelBtn, false);
         }
     } else {
         disabledButton(reserveBtn, true);
@@ -93,26 +91,6 @@ cancelBtn.click(function() {
 var reserveF = function(name) {
     names[reservePerson++] = name;
     seatLeft -= 1;
-<<<<<<< HEAD
-    reserveLabel.html(reservePerson);
-    totalLabel.html(seatLeft);
-}
-
-var cancelF = function(name) {
-  var found = false;
-  for (var i = 0;i < reservePerson;i++) {
-    if (found === true) {
-      names[i] = names[i-1];
-    }
-    if (names[i] === name) {
-      found = true;
-    }
-  }
-  reservePerson -= 1;
-  seatLeft += 1;
-  reserveLabel.html(reservePerson);
-  totalLabel.html(seatLeft);
-=======
     // update ui
     reserveLabel.html("Reserve: <br>" + reservePerson);
     totalLabel.text("Seat: " + seatLeft);
@@ -126,8 +104,7 @@ var cancelF = function(name) {
             seatLeft += 1;
             // update ui
             reserveLabel.html("Reserve: <br>" + reservePerson);
-            totalLabel.tet
-            ("Seat: " + seatLeft);
+            totalLabel.tet("Seat: " + seatLeft);
         }
     }
 }
@@ -138,7 +115,6 @@ var sentDataToServer = function(information) {
     }).done(function(data) {
         alert(data);
     });
->>>>>>> 0302e7839d7e84ccfb3d474bf79dc42d0e7e7594
 }
 
 var disabledButton = function(button, disabled) {
@@ -148,32 +124,9 @@ var disabledButton = function(button, disabled) {
         button.removeAttr("disabled");
     }
 }
-
-<<<<<<< HEAD
-reserveBtn.click(function() {
-    if (seatLeft != 0) {
-        var name = customerNameInput.val();
-        reserveF(name);
-        disabledButton(cancelBtn,false);
-    } else {
-        disabledButton(reserveBtn,true);
-    }
-});
-
-cancelBtn.click(function() {
-  if (reservePerson != 0) {
-      var name = customerNameInput.val();
-      cancelF(name);
-      disabledButton(reserveBtn,false);
-  } else {
-      disabledButton(cancelBtn,true);
-  }
-});
-=======
 var updateSeat = function() {
-  seatLeft = (allSeat - ((obj.enter + reservePerson) - obj.leave));
-  if (seatLeft < 0) {
-    seatLeft = 0;
-  }
->>>>>>> 0302e7839d7e84ccfb3d474bf79dc42d0e7e7594
+    seatLeft = (allSeat - ((obj.enter + reservePerson) - obj.leave));
+    if (seatLeft < 0) {
+        seatLeft = 0;
+    }
 }
