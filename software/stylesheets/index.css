@@ -1,9 +1,30 @@
 html {
 background-color: #ECF0F1;
+/*background: rgba(255,0,132,1);
+background: -moz-linear-gradient(left, rgba(255,0,132,1) 0%, rgba(110,102,222,1) 100%);
+background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,0,132,1)), color-stop(100%, rgba(110,102,222,1)));
+background: -webkit-linear-gradient(left, rgba(255,0,132,1) 0%, rgba(110,102,222,1) 100%);
+background: -o-linear-gradient(left, rgba(255,0,132,1) 0%, rgba(110,102,222,1) 100%);
+background: -ms-linear-gradient(left, rgba(255,0,132,1) 0%, rgba(110,102,222,1) 100%);
+background: linear-gradient(to right, rgba(255,0,132,1) 0%, rgba(110,102,222,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0084', endColorstr='#6e66de', GradientType=1 );*/
 }
+
 
 #container {
   background-color: #ECF0F1;
+  border-radius: 8px;
+  overflow: hidden;
+
+}
+#total-div{
+  font-size: 5em;
+}
+#total-div,#reserve-div{
+  height: 180px;
+}
+#reserve-div {
+  text-align: center;
 }
 
 .panel-body {
@@ -21,6 +42,7 @@ background: -o-linear-gradient(left, rgba(255,0,132,1) 0%, rgba(110,102,222,1) 1
 background: -ms-linear-gradient(left, rgba(255,0,132,1) 0%, rgba(110,102,222,1) 100%);
 background: linear-gradient(to right, rgba(255,0,132,1) 0%, rgba(110,102,222,1) 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0084', endColorstr='#6e66de', GradientType=1 );
+
 }
 .well:hover{
   -webkit-transition-duration: 1s;
@@ -29,27 +51,35 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0084', end
   color: #95A5A6;
 }
 
-.input-group-btn>.btn:hover {
+.input-group-btn .btn:hover {
   background-color: #CF000F;
 }
 
-#reserve-btn{
-  background-color: pink;
-}
-#reserve-btn:hover{
-  background-color: #9A12B3;
-}
 .panel-heading{
   font-size: 2em;
   font-weight: 900;
+}
+
+#reserve-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#customerName-input {
+  background-color: #fcfeff;
 }
 .well{
   font-size: 1.5em;
   text-align: center;
   padding: 30px 0 30px;
+  border-radius: 15px;
+
+  /*border-radius: 15px;*/
 }
 body{
   width: 80%;
   min-width: 300px;
   margin: 0 auto;
+  margin-top: 140px;
 }

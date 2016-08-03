@@ -8,9 +8,7 @@
 
     <title>SMART BUS</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/stylesheets/bootstrap-theme.min.css">
     <!--custom.css-->
     <link rel="stylesheet" href="/stylesheets/index.css">
@@ -22,9 +20,9 @@
     <div class="row">
         <div class="col-xs-12 col-md-12 col-lg-12" id="container">
             <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <center>SMART BUS STATUS</center>
-                </div>
+              <div class="panel-heading">
+                  <center>SMART BUS STATUS</center>
+              </div>
                 <div class="panel-body">
                     <!-- first line of container -->
                     <div class="row">
@@ -40,33 +38,34 @@
                         </div>
                         <div class="col-xs-2 col-md-2 col-lg-2">
                             <div id="temp-div" class="well well-sm">
-                                <center>TEMP</center>
+                                <center></center>
                             </div>
                         </div>
                     </div>
                     <!-- second line of container -->
                     <div class="row">
-                        <div class="col-xs-12 col-md-12 col-lg-12">
+                        <div class="col-xs-8 col-md-8 col-lg-8">
                             <div id="total-div" class="well well-lg">
-                                <center>TOTAL</center>
+                                <center></center>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-md-4 col-lg-4">
+                            <div id="reserve-div" class="well well-lg">
+                                <center>Reserve: <br /> 0 </center>
                             </div>
                         </div>
                     </div>
                     <!-- third line of container -->
                     <div class="row">
-                        <div class="col-xs-4 col-md-4 col-lg-4">
+                        <div class="col-xs-6 col-md-6 col-lg-6">
                             <div id="enter-div" class="well well-lg">
-                                <center>ENTER</center>
+                                <center>Enter: 0</center>
                             </div>
                         </div>
-                        <div class="col-xs-2 col-md-2 col-lg-2">
-                            <div id="reserve-div" class="well well-lg">
-                                <center>RESERVE</center>
-                            </div>
-                        </div>
+
                         <div class="col-xs-6 col-md-6 col-lg-6">
                             <div id="leave-div" class="well well-lg">
-                                <center>LEAVE</center>
+                                <center>Leave: 0</center>
                             </div>
                         </div>
                     </div>
@@ -76,8 +75,13 @@
                             <div class="input-group">
                                 <input id="customerName-input" type="text" class="form-control" aria-label="...">
                                 <div class="input-group-btn ">
+<<<<<<< HEAD
                                     <button disabled id="reserve-btn" class="btn btn-info " type="button ">RESERVE!</button>
                                     <button disabled id="cancel-btn" class="btn btn-warning " type="button ">CANCEL!</button>
+=======
+                                    <button disabled id="reserve-btn" class="btn btn-info" type="button " class="col-xs-2 col-md-2">RESERVE!</button>
+                                    <button disabled id="cancel-btn" class="btn btn-warning" type="button " class="col-xs-2 col-md-2">CANCEL!</button>
+>>>>>>> 0302e7839d7e84ccfb3d474bf79dc42d0e7e7594
                                 </div>
                             </div>
                         </div>
@@ -87,6 +91,7 @@
         </div>
     </div>
     </div>
+<<<<<<< HEAD
     <script type="text/javascript">
     var names = [];
 
@@ -218,6 +223,9 @@
       }
     });
 
+=======
+    <script type="text/javascript" src="script/function.js">
+>>>>>>> 0302e7839d7e84ccfb3d474bf79dc42d0e7e7594
     </script>
 </body>
 

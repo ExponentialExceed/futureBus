@@ -17,26 +17,33 @@ var customerNameInput = ($('#customerName-input'));
 var reserveBtn = $('#reserve-btn');
 var cancelBtn = $('#cancel-btn');
 
-var enterPerson = 0;
 var reservePerson = 0;
-var leavePerson = 0;
 
 var seatLeft = 0;
 
-setInterval(function() {
-    var date = new Date();
-    timeLabel.html("<center>" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "</center>");
-    dateLabel.html("<center>" + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "</center>");
-}, 1000);
+var obj = null;
 
 setInterval(function() {
+    // senter form {"temp":(), "enter":(),"leave":()}
+
+    // server
     $.ajax({
         url: 'http://10.32.176.4/Exponential'
     }).done(function(data) {
-        // TODO: add temperature to here
-        temperatureLabel.html();
+        // TODO: add information to web
+        obj = JSON.parse(data);
+        updateSeat();
+        temperatureLabel.text(obj.temp + "°C");
+        enterLabel.text("Enter: " + obj.enter);
+        leaveLabel.text("Leave: " + obj.leave);
+        totalLabel.text("Seat: " + seatLeft);
     });
-}, 10000);
+
+    // time
+    var date = new Date();
+    timeLabel.text("Time: " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
+    dateLabel.text("Date: " + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear());
+}, 1000);
 
 customerNameInput.keyup(function(e) {
     e.preventDefault();
@@ -59,24 +66,34 @@ customerNameInput.keyup(function(e) {
     }
 });
 
-var goIn = function() {
-    enterPerson += 1;
-    seatLeft = allSeat - ((enterPerson + reservePerson) - leavePerson);
-    enterLabel.html(enterPerson);
-    totalLabel.html(seatLeft);
-}
+reserveBtn.click(function() {
+    if (seatLeft != 0) {
+        var name = customerNameInput.val();
+        if (name != "") {
+          reserveF(name);
+          disabledButton(cancelBtn, false);
+        }
+    } else {
+        disabledButton(reserveBtn, true);
+    }
+    customerNameInput.val("");
+});
 
-var goOut = function() {
-    numLeaave += 1;
-    seatLeft = allSeat - ((enterPerson + reservePerson) - leavePerson);
-    leaveLabel.html(leavePerson);
-    totalLabel.html(seatLeft);
-}
+cancelBtn.click(function() {
+    if (reservePerson != 0) {
+        var name = customerNameInput.val();
+        cancelF(name);
+        disabledButton(reserveBtn, false);
+    } else {
+        disabledButton(cancelBtn, true);
+    }
+    customerNameInput.val("");
+});
 
 var reserveF = function(name) {
-    reserveList[reservePerson] = name;
-    reservePerson += 1;
+    names[reservePerson++] = name;
     seatLeft -= 1;
+<<<<<<< HEAD
     reserveLabel.html(reservePerson);
     totalLabel.html(seatLeft);
 }
@@ -95,6 +112,33 @@ var cancelF = function(name) {
   seatLeft += 1;
   reserveLabel.html(reservePerson);
   totalLabel.html(seatLeft);
+=======
+    // update ui
+    reserveLabel.html("Reserve: <br>" + reservePerson);
+    totalLabel.text("Seat: " + seatLeft);
+}
+
+var cancelF = function(name) {
+    for (var i = 0; i < names.length; i++) {
+        if (names[i] == name) {
+            names.splice(i, 1);
+            reservePerson -= 1;
+            seatLeft += 1;
+            // update ui
+            reserveLabel.html("Reserve: <br>" + reservePerson);
+            totalLabel.tet
+            ("Seat: " + seatLeft);
+        }
+    }
+}
+
+var sentDataToServer = function(information) {
+    $.ajax({
+        url: 'http://10.32.176.4/Exponential/' + information
+    }).done(function(data) {
+        alert(data);
+    });
+>>>>>>> 0302e7839d7e84ccfb3d474bf79dc42d0e7e7594
 }
 
 var disabledButton = function(button, disabled) {
@@ -105,6 +149,7 @@ var disabledButton = function(button, disabled) {
     }
 }
 
+<<<<<<< HEAD
 reserveBtn.click(function() {
     if (seatLeft != 0) {
         var name = customerNameInput.val();
@@ -124,4 +169,11 @@ cancelBtn.click(function() {
       disabledButton(cancelBtn,true);
   }
 });
+=======
+var updateSeat = function() {
+  seatLeft = (allSeat - ((obj.enter + reservePerson) - obj.leave));
+  if (seatLeft < 0) {
+    seatLeft = 0;
+  }
+>>>>>>> 0302e7839d7e84ccfb3d474bf79dc42d0e7e7594
 }
